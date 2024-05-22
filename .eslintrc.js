@@ -10,15 +10,11 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'airbnb-base',
-        'plugin:jest/recommended',
     ],
     parserOptions: {
         sourceType: 'module',
         ecmaVersion: 2020,
     },
-    plugins: [
-        'jest',
-    ],
     rules: {
         /*
          * 'off' 或 0 - 关闭规则
