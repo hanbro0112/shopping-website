@@ -99,7 +99,7 @@ module.exports = {
         // 不需要無用的建構式，空的建構式就不需要寫
         'no-useless-constructor': 'error',
         // 禁止使用 const 宣告變數
-        'no-const': 'error',
+        // 'no-const': 'error',
         // 禁止直接回傳一個 await 操作
         'no-return-await': 'error',
         // 如果變數宣告後不曾再次進行賦值操作，則應該宣告為 const

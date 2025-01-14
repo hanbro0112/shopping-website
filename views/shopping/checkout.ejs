@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- head -->
+	<%- include ("../head.ejs") %>
+	<!-- head -->
+	<body>
+		<!-- header -->
+		<%- include ("../header.ejs") %>
+		<!-- header -->
+
+		<!-- error -->
+		<%- include ("../error.ejs") %>
+		<!-- error -->
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">checkout</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="/">Home</a></li>
+							<li class="active"></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<form action="/shopping/confirm" method="post">
+
+						<div class="col-md-7">
+							<!-- Billing Details -->
+							<div class="billing-details">
+								<div class="section-title">
+									<h3 class="title">結帳</h3>
+								</div>
+								<p>收件人:</p>
+								<div class="form-group">
+									<p><%- name %></p>
+								</div>
+								<p>地址:</p>
+								<div class="form-group">
+									<p><%- address %></p>
+								</div>
+							</div>
+							<!-- /Billing Details -->
+
+							<!-- Order notes -->
+							<p>其他交辦事項:</p>
+							<div class="order-notes">
+								<textarea name="notes" class="input" placeholder="Order Notes"></textarea>
+							</div>
+							<!-- /Order notes -->
+						</div>
+
+						<!-- Order Details -->
+						<div class="col-md-5 order-details">
+							<div class="section-title text-center">
+								<h3 class="title">Your Order</h3>
+							</div>
+							<div class="order-summary">
+								<div class="order-col">
+									<div><strong>PRODUCT</strong></div>
+									<div><strong>TOTAL</strong></div>
+								</div>
+								<div class="order-products">
+									<% for (var i = 0; i < order.length; i++) { %>
+										<input type="hidden" name="cartId" value="<%- order[i].cartId %>">
+										<input type="hidden" name="quantity" value="<%- order[i].quantity %>">
+										<div class="order-col">
+											<div><%- order[i].quantity %>x <%- order[i].name %></div>
+											<div>$<%- order[i].amount %></div>
+										</div>
+									<% } %>
+								</div>
+								<div class="order-col">
+									<div>Shiping</div>
+									<div><strong>FREE</strong></div>
+								</div>
+								<div class="order-col">
+									<div><strong>TOTAL</strong></div>
+									<input type="hidden" name="amount" value="<%- amount %>">
+									<div><strong class="order-total">$<%- amount %></strong></div>
+								</div>
+							</div>
+							<div class="payment-method">
+								<div class="input-radio">
+									<input type="radio" name="payment" id="payment-1" checked>
+									<label for="payment-1">
+										<span></span>
+										<strong> 藍新金流 <i class="fa fa-credit-card"></i> </strong>
+									</label>
+									<div class="caption">
+										<ol>
+											<li>測試環境僅接受以下的測試卡號<br>
+												<strong>4000-2211-1111-1111</strong>
+											</li>
+											<li>測試卡號有效月年及卡片背面末三碼，請任意填寫</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="primary-btn order-submit" style="width:440px;">Place order</button>	
+						</div>
+					</form>
+					<!-- /Order Details -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+	
+		<!-- footer -->
+		<%- include ("../footer.ejs") %>
+		<!-- footer -->
+	</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- head -->
+	<%- include ("../head.ejs") %>
+	<!-- head -->
+	<body>
+		<!-- header -->
+		<%- include ("../header.ejs") %>
+		<!-- header -->
+
+		<!-- error -->
+		<%- include ("../error.ejs") %>
+		<!-- error -->
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">訂單</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="/">Home</a></li>
+							<li class="active"></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="order-summary clearfix">
+                                    <table class="shopping-cart-table table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">訂單編號</th>
+                                                <th class="text-center">時間</th>
+                                                <th class="text-center">金額</th>
+                                                <th class="text-center">狀態</th>
+                                                <th class="text-right">備註</th>
+                                                <th></th>
+                                            </tr>
+                                            <% for (var i = 0; i < orders.length; i++) { %>
+                                                <tr style="background-color:#DCDCDC;">
+                                                    <td class="text-left"><%- orders[i].id %></td>
+                                                    <td class="text-center"><%- orders[i].time %></td>
+                                                    <td class="qty text-center">$<%- orders[i].amount %></td>
+                                                    <td class="text-center"><%- orders[i].state %></td>
+                                                    <td class="text-right"><%- orders[i].note %> </td>
+                                                    <td></td>
+												</tr>
+												<% for (var j = 0; j < orders[i].details.length; j++) { %>
+													<tr>
+														<td></td>
+														<td class="text-center">
+															<li>
+																<a href="/products/<%- orders[i].details[j].productId %>" target="_blank">
+																	<u><%- orders[i].details[j].name %></u>
+																</a>
+																&emsp;X <%- orders[i].details[j].quantity %>
+																&emsp;$<%- orders[i].details[j].amount %>
+														</td>
+													</tr>
+												<% } %>
+                                            <% } %>
+                                        </thead>
+                                    </table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>				
+		</div>
+
+		<!-- footer -->
+		<%- include ("../footer.ejs") %>
+		<!-- footer -->
+	</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- head -->
+	<%- include ("../head.ejs") %>
+	<!-- head -->
+	<body>
+		<!-- header -->
+		<%- include ("../header.ejs") %>
+		<!-- header -->
+
+		 <!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">會員註冊</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="/">home</a></li>
+							<li class="active">register</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- error -->
+		<%- include ("../error.ejs") %>
+		<!-- error -->
+
+		<!-- login -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                    <div class="col-md-12">
+						<form action="./register", method="post">
+                            <p font-size="16">帳號: <input type="email" name="username" id="username" required="required" placeholder="email" autofocus></p>
+                            <p font-size="16">密碼: <input type="password" name="password" id="password" required="required" placeholder="password" ></p>
+							<p font-size="16">重複密碼: <input type="password" name="repeatPassword" id="repeatPassword" required="required" placeholder="******" ></p>
+							<input type="hidden" name="redirect-info" value="<%- redirectInfo %>">
+							<input type="submit" value="提交"> 
+                        </form>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /login -->
+
+        <!-- third-party login -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                    <div class="col-md-12">
+                        <p>第三方登入</p>
+						<ul class="footer-links">
+							<% if (redirectInfo) { %>
+								<li><a href="./auth/google?<%- redirectInfo %>"><i class="fa fa-user-o"></i>Google</a></li>
+							<% } else { %>
+								<li><a href="./auth/google"><i class="fa fa-user-o"></i>Google</a></li>
+							<% } %>
+                            <li><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                            <li><a href="#"><i class="fa fa-heart-o"></i>Github</a></li>
+                        </ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+
+		<!-- footer -->
+		<%- include ("../footer.ejs") %>
+		<!-- footer -->
+	</body>
+</html>
