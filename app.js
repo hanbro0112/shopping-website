@@ -8,7 +8,6 @@ const logger = require('morgan');
 const logginMiddleware = require('./middlewares/loginMiddleware');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const accountsRouter = require('./routes/accounts');
 const productsRuter = require('./routes/products');
 const shoppingRouter = require('./routes/shopping');
@@ -28,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logginMiddleware);
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/accounts', accountsRouter);
 app.use('/products', productsRuter);
 app.use('/shopping', shoppingRouter);
