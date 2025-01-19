@@ -1,0 +1,30 @@
+services:
+  database:
+    image: mysql:8.4.3
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      TZ: Asia/Shanghai
+      MYSQL_CHARACTER_SET_SERVER: utf8
+    ports:
+      - "3308:3306"
+    volumes:
+      - D:\docker_volumn\mysql:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: myadmin
+    environment:
+      PMA_ARBITRARY: 1
+    ports:
+      - "13308:80"
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - D:\docker_volumn\redis:/data
