@@ -3,10 +3,13 @@
 require('dotenv').config();
 
 const crypto = require('crypto');
+const { sequelize } = require('../../models');
+const redis = require('../../redis');
 const { toNumber } = require('../../utils/check');
 const {
     Product, Cart, Order, OrderDetail,
 } = require('../../models');
+const { findProductById } = require('../utils');
 const { orderState } = require('./config');
 
 const {
@@ -88,21 +91,14 @@ async function checkoutPage(req, res) {
                 userId: res.locals.accountId,
             },
         });
-            // 購物車已刪除 / 防呆
+        // 購物車已刪除 / 防呆
         if (!item) continue;
-
-        const product = await Product.findOne({
-            where: {
-                id: item.productId,
-            },
-        });
-            // 商品已刪除
+        // 查詢商品
+        const product = await findProductById(item.productId);
+        // 商品已刪除
         if (!product) continue;
         // 商品庫存不足
         if (product.stock === 0) continue;
-        /**
-                鎖定商品庫存
-            */
         // 購買數量 <= 商品庫存
         const quantity = Math.min(item.quantity, product.stock);
         const amount = product.discount > 0
@@ -155,6 +151,7 @@ async function confirmPost(req, res) {
     }
     // 檢查訂單資料
     const data = [];
+    const cartItems = [];
     let invaildMsg = '';
     let totalAmount = 0;
     for (let i = 0; i < cartId.length; i++) {
@@ -169,11 +166,8 @@ async function confirmPost(req, res) {
             break;
         }
 
-        const product = await Product.findOne({
-            where: {
-                id: item.productId,
-            },
-        });
+        cartItems.push(item);
+        const product = await findProductById(item.productId);
         if (!product) {
             invaildMsg = '商品已刪除';
             break;
@@ -196,31 +190,94 @@ async function confirmPost(req, res) {
             quantity: quantity[i],
         });
     }
-    if (totalAmount !== toNumber(req.body.amount)) {
+    if (!invaildMsg && totalAmount !== toNumber(req.body.amount)) {
         invaildMsg = '訂單金額不正確';
     }
+
     if (invaildMsg) {
         res.render('alert', { msg: invaildMsg });
 
         return;
     }
-    // 建立訂單
-    const orderId = crypto.randomUUID().slice(30); // 藍新金流最大 30 字
+
+    // 訂單確認
     const userId = res.locals.accountId;
-    await Order.create({
-        id: orderId,
-        userId,
-        amount: totalAmount,
-        state: orderState.unpaid,
-        note: req.body.notes,
-    });
-    await Promise.all(data.map(async (item) => {
-        OrderDetail.create({
+    const orderId = crypto.randomUUID().slice(30); // 藍新金流最長 30 字
+    // 開啟事務
+    const t = await sequelize.transaction();
+    try {
+        await Promise.all(data.map(async (item) => {
+            // 樂觀鎖 - 更新商品庫存
+            await Product.update({
+                stock: sequelize.literal(`stock - ${item.quantity}`),
+            }, {
+                where: {
+                    id: item.productId,
+                    stock: {
+                        [sequelize.Op.gte]: item.quantity,
+                    },
+                },
+                transaction: t,
+            }).then((p) => {
+                // [0|1]  [失敗|成功]
+                if (p[0] === 0) {
+                    throw new Error('商品庫存不足');
+                }
+            });
+        }));
+        // 建立訂單
+        await Order.create({
+            id: orderId,
+            userId,
+            amount: totalAmount,
+            state: orderState.unpaid,
+            note: req.body.notes,
+        }, {
+            transaction: t,
+        }).then((p) => {
+            // 訂單資訊
+            if (!p) {
+                throw new Error('建立訂單失敗');
+            }
+        });
+
+        // 建立訂單明細
+        await OrderDetail.bulkCreate(data.map((item) => ({
             orderId,
             userId,
             ...item,
+        })), {
+            transaction: t,
+            validate: true,
+        }).then((p) => {
+            // 訂單明細
+            if (!p) {
+                throw new Error('建立訂單明細失敗');
+            }
         });
+
+        // 提交事務
+        await t.commit();
+    }
+    catch (error) {
+        // 回滾事務
+        await t.rollback();
+        res.render('alert', { msg: error.message });
+
+        return;
+    }
+
+    // 更新成功，刪除緩存
+    await Promise.all(data.map(async (item) => {
+        redis.del(`product:${item.productId}`);
     }));
+
+    // 更新成功，刪除購物車
+    for (let i = 0; i < cartItems.length; i++) {
+        await cartItems[i].destroy();
+    }
+
+    // return res.render('alert', { msg: '訂單建立成功' });
 
     // 串接金流
     const order = {

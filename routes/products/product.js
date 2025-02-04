@@ -3,7 +3,8 @@ require('dotenv').config();
 
 const { CART_LIMIT } = require('../../setup');
 const { toNumber } = require('../../utils/check');
-const { Product, Cart } = require('../../models');
+const { Cart } = require('../../models');
+const { findProductById } = require('../utils');
 
 module.exports.routers = function (router) {
     // 頁面
@@ -32,12 +33,10 @@ class ProductReply {
 }
 
 async function productPage(req, res) {
+    const productId = toNumber(req.params.id);
+    const quantity = toNumber(req.query.quantity, 1);
     // 查詢商品
-    const product = await Product.findOne({
-        where: {
-            id: toNumber(req.params.id),
-        },
-    });
+    const product = await findProductById(productId);
     if (!product) {
         res.render('alert', { msg: '找不到商品' });
 
@@ -53,38 +52,34 @@ async function productPage(req, res) {
         stock: product.stock,
         sold: product.sold,
         msg: '',
-        quantity: toNumber(req.query.quantity, 1), // 重定向回復原本的數量
+        quantity, // 重定向回復原本的數量
     }));
 }
 
 async function productAddToCart(req, res) {
-    const productId = toNumber(req.body['add-to-cart'], -1);
+    const productId = toNumber(req.body['add-to-cart']);
     const quantity = toNumber(req.body.quantity, 1);
-    // 1. 未登入
+    // 未登入
     if (!res.locals.isLogin) {
         res.redirect(`/accounts/login?redirect_url=/products/${productId}&quantity=${toNumber(req.body.quantity)}`);
 
         return;
     }
-    // 2. 商品不存在
-    const product = await Product.findOne({
-        where: {
-            id: productId,
-        },
-    });
+    // 查詢商品
+    const product = await findProductById(productId);
     if (!product) {
         res.render('alert', { msg: '找不到商品' });
 
         return;
     }
 
-    // 3. 加入購物車
+    // 加入購物車
     const cart = await Cart.findAll({
         where: {
             userId: res.locals.accountId,
         },
     });
-    // 3-1 已存在購物車，修改商品數量
+    // 已存在購物車，修改商品數量
     let isExist = false;
     cart.forEach((item) => {
         if (item.productId === productId) {
@@ -95,7 +90,7 @@ async function productAddToCart(req, res) {
             }
         }
     });
-    // 3-2 購物車已滿
+    // 購物車已滿
     if (!isExist && cart.length === CART_LIMIT) {
         res.cookie(
             'cartNumber',
@@ -117,7 +112,7 @@ async function productAddToCart(req, res) {
 
         return;
     }
-    // 3-3 新增至購物車
+    // 新增至購物車
     if (!isExist) {
         await Cart.create({
             userId: res.locals.accountId,
@@ -125,7 +120,7 @@ async function productAddToCart(req, res) {
             quantity,
         });
     }
-
+    // 設定 cookie，紀錄購物車數量
     res.cookie(
         'cartNumber',
         cart.length + !isExist,

@@ -40,4 +40,8 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// 添加 Sequelize.Op
+db.sequelize.Op = Sequelize.Op;
+db.Sequelize.Op = Sequelize.Op;
+
 module.exports = db;

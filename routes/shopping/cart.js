@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 require('dotenv').config();
 
-const { Product, Cart } = require('../../models');
+const { Cart } = require('../../models');
+const { findProductById } = require('../utils');
 
 module.exports.routers = function (router) {
     // 購物車頁面
@@ -53,11 +54,8 @@ async function cartPage(req, res) {
     );
     const cartArray = [];
     for (let i = 0; i < cart.length; i++) {
-        const product = await Product.findOne({
-            where: {
-                id: cart[i].productId,
-            },
-        });
+        // 查詢商品
+        const product = await findProductById(cart[i].productId);
         // 商品已刪除
         if (!product) {
             continue;
@@ -75,7 +73,7 @@ async function cartPage(req, res) {
             item.state = '無庫存';
         }
         else if (cart[i].amomunt >= product.stock) {
-            item.state = '已達購賣上限';
+            item.state = '已達購買上限';
         }
         cartArray.push(item);
     }
