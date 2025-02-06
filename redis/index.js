@@ -1,7 +1,9 @@
+/* eslint-disable import/no-dynamic-require */
 const redis = require('ioredis');
 const fs = require('fs');
 
-const { host, port } = require('../config/config').redis;
+const env = process.env.NODE_ENV || 'development';
+const { host, port } = require(`${__dirname}/../config/config.js`)[env].redis;
 
 const client = redis.createClient(port, host);
 

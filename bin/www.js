@@ -35,9 +35,10 @@ console.log(`Listening on http://localhost:${port}`);
 
 function normalizePort(val) {
 
+    // eslint-disable-next-line no-shadow
     const port = parseInt(val, 10);
 
-    if (isNaN(port)) {
+    if (Number.isNaN(port)) {
     // named pipe
         return val;
     }
