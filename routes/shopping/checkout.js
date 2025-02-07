@@ -269,7 +269,7 @@ async function confirmPost(req, res) {
 
     // 更新成功，刪除緩存
     await Promise.all(data.map(async (item) => {
-        redis.del(`product:${item.productId}`);
+        redis.hincrby(`product:${item.productId}`, 'stock', -item.quantity);
     }));
 
     // 更新成功，刪除購物車
