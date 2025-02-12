@@ -10,14 +10,14 @@ class RedisSimpleLock {
     }
 
     async lock(tryLockTime = 3) {
-        // 重試獲取鎖，失敗等待 500ms
+        // 重試獲取鎖，每次等待 100 ~ 500 ms
         for (let i = 0; i < tryLockTime; i++) {
             const result = await redis.set(this.key, this.uuid, 'EX', this.timeout, 'NX');
             if (result === 'OK') {
                 return true;
             }
             await new Promise((resolve) => {
-                setTimeout(resolve, 500);
+                setTimeout(resolve, 100 + 50 * getRandomInteger(8));
             });
         }
 
@@ -29,6 +29,15 @@ class RedisSimpleLock {
         await redis.unLock(this.key, this.uuid);
     }
 
+}
+
+/**
+ * 取得隨機整數
+ * @param {integer} max
+ * @returns
+ */
+function getRandomInteger(max) {
+    return Math.floor(Math.random(max));
 }
 
 module.exports = RedisSimpleLock;

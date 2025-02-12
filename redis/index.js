@@ -17,4 +17,10 @@ client.defineCommand('unLock', {
     lua: fs.readFileSync(`${__dirname}/unlock.lua`, 'utf8'),
 });
 
+// 查詢後更新庫存
+client.defineCommand('updateStock', {
+    numberOfKeys: 1,
+    lua: fs.readFileSync(`${__dirname}/updateStock.lua`, 'utf8'),
+});
+
 module.exports = client;

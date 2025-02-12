@@ -59,4 +59,37 @@ function loginMiddleware(req, res, next) {
     next();
 }
 
-module.exports = loginMiddleware;
+// 測試用
+let seeRefreshToken = false;
+
+function test(req, res, next) {
+    // 初始化登入資訊
+    res.locals.isLogin = false;
+    res.locals.accountId = '';
+    res.locals.cartNumber = toNumber(req.cookies.cartNumber, '');
+    // 已登入
+    if (req.cookies.refreshToken) {
+        try {
+            const { id } = jwt.verify(req.cookies.refreshToken, process.env.JWT_REFRESH_SECRET_KEY);
+            if (!seeRefreshToken) {
+                seeRefreshToken = true;
+                console.log(req.cookies.refreshToken);
+            }
+            // 傳遞登入資訊
+            res.locals.isLogin = true;
+            res.locals.accountId = id;
+        }
+        catch (err) {
+            /**
+             *  err = {
+             *  name: 'TokenExpiredError',
+             *  message: 'jwt 過期',
+             * }
+            */
+            console.log(err);
+        }
+    }
+    next();
+}
+
+module.exports = test;

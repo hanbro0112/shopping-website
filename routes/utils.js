@@ -120,47 +120,6 @@ async function findProductById(productId) {
     return product.id !== nullObject ? product : null;
 }
 
-// /**
-//  * 更新商品庫存
-//  * @param {String | Integer} productId 商品 id
-//  * @param {Integer} quantity 商品數量
-//  * @param {Object} t sequelize transaction
-//  * @returns {String}
-//  */
-// async function updateProductStock(productId, quantity, t) {
-//     const id = toNumber(productId);
-//     const key = `product:${id}`;
-//     const redisSimpleLock = new RedisSimpleLock(LockPrefix + id);
-//     // 1 嘗試獲取鎖
-//     const lock = await redisSimpleLock.lock(6);
-//     // 2 無法獲取鎖，返回失敗
-//     if (!lock) {
-//         return '獲取商品失敗';
-//     }
-//     // 3 更新庫存
-//     const isUpdate = await Product.update({
-//         stock: sequelize.literal(`stock - ${quantity}`),
-//     }, {
-//         where: {
-//             id,
-//             stock: {
-//                 [sequelize.Op.gt]: quantity,
-//             },
-//         },
-//         transaction: t,
-//     });
-//     // 4 更新成功，刪除緩存
-//     if (isUpdate) {
-//         redis.del(key);
-//     }
-//     // 5 釋放鎖
-//     await redisSimpleLock.unlock();
-
-//     return isUpdate ? 'OK' : '庫存不足';
-// }
-
-
 module.exports = {
     findProductById,
-    // updateProductStock,
 };

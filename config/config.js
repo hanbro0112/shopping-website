@@ -13,6 +13,9 @@ module.exports = {
             host: '172.18.1.3',
             post: '6379',
         },
+        kafka: {
+            brokers: ['172.18.1.7:9092'],
+        },
     },
     test: {
         mysql: {
@@ -27,6 +30,9 @@ module.exports = {
         redis: {
             host: '127.0.0.1',
             post: '6379',
+        },
+        kafka: {
+            brokers: ['127.0.0.1:9092'],
         },
     },
 };
