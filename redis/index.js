@@ -19,7 +19,6 @@ client.defineCommand('unLock', {
 
 // 查詢後更新庫存
 client.defineCommand('updateStock', {
-    numberOfKeys: 1,
     lua: fs.readFileSync(`${__dirname}/updateStock.lua`, 'utf8'),
 });
 

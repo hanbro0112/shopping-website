@@ -209,19 +209,12 @@ async function confirmPost(req, res) {
     const userId = res.locals.accountId;
     const orderId = crypto.randomUUID().slice(30); // 藍新金流最長 30 字
     // 緩存庫存扣減
-    const completeItems = [];
-    await Promise.all(data.map(async (item) => {
-        const isUpdate = await redis.updateStock(`product:${item.productId}`, item.quantity);
-        if (isUpdate === 1) {
-            completeItems.push(item);
-        }
-    }));
-    // 緩存庫存不足，rollback
-    if (completeItems.length !== data.length) {
-        await Promise.all(completeItems.map(async (item) => {
-            redis.hincrby(`product:${item.productId}`, 'stock', item.quantity);
-        }));
+    const keys = data.map((item) => `product:${item.productId}`);
+    const values = data.map((item) => item.quantity);
+    const isUpdate = await redis.updateStock(keys.length, ...keys, ...values);
 
+    // 緩存庫存不足
+    if (!isUpdate) {
         res.render('alert', { msg: '商品庫存不足' });
 
         return;
