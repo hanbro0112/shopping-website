@@ -1,0 +1,44 @@
+{
+  "name": "shopping-website",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "set NODE_ENV=test&& nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "model:generate": "npx sequelize-cli model:generatie --name",
+    "migration:create": "npx sequelize-cli migration:create --name",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:rollback": "npx sequelize-cli db:migrate:undo",
+    "seed:generate": "npx sequelize-cli seed:generate --name",
+    "seed:all": "npx sequelize-cli db:seed:all"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^28.5.0",
+    "jest": "^29.7.0",
+    "jest-extended": "^4.0.2",
+    "jest-junit": "^16.0.0",
+    "nodemon": "^3.1.4",
+    "sequelize-cli": "^6.6.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "~4.16.1",
+    "google-auth-library": "^9.15.0",
+    "http-errors": "~1.6.3",
+    "ioredis": "^5.4.2",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
+    "morgan": "~1.9.1",
+    "mysql2": "^3.9.7",
+    "sequelize": "^6.37.3"
+  }
+}

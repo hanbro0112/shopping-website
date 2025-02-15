@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- head -->
+	<%- include ("../head.ejs") %>
+	<!-- head -->
+	<body>
+		<!-- header -->
+		<%- include ("../header.ejs") %>
+		<!-- header -->
+
+		<!-- error -->
+		<%- include ("../error.ejs") %>
+		<!-- error -->
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">product</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="/">Home</a></li>
+							<li class="active"></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<div class="section" style="text-align: left;">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-6">
+						<img src=<%- picture_url %>  alt="product-image">
+					</div>
+					<div class="col-md-6">
+						<ul>
+							<li> 
+								<h1><%- name %></h1>
+							</li>
+							<% if (discount > 0) { %>
+								<li>
+									<p style="font-size: 30px; color:red;">
+										<strong>$<%- price * discount %> </strong>
+										<del class="font-weak" style="font-size: 15px; text-align: right; color:black;">$ <%- price %></del>
+									</p>
+								<li>
+									<h2><%- 10 * discount %>折</h2>
+								</li>
+							<% } else { %>
+								<p style="font-size: 30px; color:red;">
+									<strong>$<%- price %> </strong>
+								</p>
+							<% } %>
+							<li>
+								<h3>庫存: <%- stock %>  </h3>
+								<h3>已售出: <%- sold %> </h3>
+							</li>
+						</ul>
+						<hr>
+						<ul>
+							<form action="/products" method="post">
+								<li>
+									<h3>數量:<input type="number" name="quantity" value="<%- quantity %>" min="1" max="<%- stock %>"></h3>
+								</li>
+								<li>
+									<button type="submit" name="add-to-cart" value="<%- productId %>" class="primary-btn add-to-cart">加入購物車</button>
+									<!-- <button type="submit" name="buy-now" value="<%- productId %>" class="primary-btn add-to-cart">立即購買</button> -->
+								</li>
+							</form>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- footer -->
+		<%- include ("../footer.ejs") %>
+		<!-- footer -->
+	</body>
+</html>
