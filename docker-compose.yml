@@ -21,7 +21,6 @@ services:
       - redis
       - nginx
       - kafka
-      #- consumer
  
   web2:
     <<: *web
@@ -61,7 +60,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - D:\docker_volumn\mysql:/var/lib/mysql
+      - .\docker_volumn\mysql:/var/lib/mysql
     networks:
       default:
         ipv4_address: 172.18.1.2
@@ -72,7 +71,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - D:\docker_volumn\redis:/data
+      - .\docker_volumn\redis:/data
     networks:
       default:
         ipv4_address: 172.18.1.3
@@ -83,7 +82,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - D:\docker_volumn\nginx\nginx.conf:/etc/nginx/nginx.conf
+      - .\nginx\nginx.conf:/etc/nginx/nginx.conf
     networks:
       default:
         ipv4_address: 172.18.1.4
@@ -113,7 +112,7 @@ services:
     extra_hosts:
       - "kafka:127.0.0.1"
     volumes:
-      - D:/docker_volumn/zookeeper/data:/bitnami/zookeeper/data
+      - ./docker_volumn/zookeeper/data:/bitnami/zookeeper/data
     networks:
       default:
         ipv4_address: 172.18.1.6
@@ -136,7 +135,7 @@ services:
       # 全局消息过期时间 6 小时(测试时可以设置短一点)
       - KAFKA_CFG_LOG_RETENTION_HOURS=2
     volumes:
-      - D:/docker_volumn/kafka/data:/bitnami/kafka/data
+      - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
       - zookeeper
     networks:
