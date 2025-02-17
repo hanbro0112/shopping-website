@@ -51,7 +51,7 @@ services:
   database:
     image: mysql:8.4.3
     container_name: mysql
-    mem_limit: 512m
+    mem_limit: 355m
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: root
@@ -70,6 +70,7 @@ services:
   redis:
     image: redis:latest
     container_name: redis
+    mem_limit: 64m
     ports:
       - "6379:6379"
     # volumes:
@@ -103,6 +104,7 @@ services:
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     container_name: zookeeper
+    mem_limit: 128m
     restart: always
     ports:
       - '2181:2181'
@@ -112,8 +114,6 @@ services:
     # Kafka 客户端在连接 Broker 的时候，Broker 将客户端发来的请求附加信息与 Broker 启动时上报给 Zookeeper 的 listeners参数信息、host（来自listeners的中间域名或主机名部分）、port (来自listeners的端口部分) 进行了验证，认证通过建立连接执行请求
     extra_hosts:
       - "kafka:127.0.0.1"
-    depends_on:
-      - database
     networks:
       default:
         ipv4_address: 172.18.1.6
@@ -121,6 +121,7 @@ services:
   kafka:
     image: 'bitnami/kafka:2.8.0'
     container_name: kafka
+    mem_limit: 355m
     ports:
       - '9092:9092'
     environment:
@@ -141,7 +142,6 @@ services:
     #   - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
       - zookeeper
-      - database
     networks:
       default:
         ipv4_address: 172.18.1.7
