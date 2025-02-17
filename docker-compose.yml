@@ -46,7 +46,7 @@ services:
       - database
       - kafka
       - web1
-      - web2
+      # - web2
     
   database:
     image: mysql:8.4.3
