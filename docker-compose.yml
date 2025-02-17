@@ -112,6 +112,8 @@ services:
     # Kafka 客户端在连接 Broker 的时候，Broker 将客户端发来的请求附加信息与 Broker 启动时上报给 Zookeeper 的 listeners参数信息、host（来自listeners的中间域名或主机名部分）、port (来自listeners的端口部分) 进行了验证，认证通过建立连接执行请求
     extra_hosts:
       - "kafka:127.0.0.1"
+    depends_on:
+      - database
     networks:
       default:
         ipv4_address: 172.18.1.6
@@ -119,6 +121,7 @@ services:
   kafka:
     image: 'bitnami/kafka:2.8.0'
     container_name: kafka
+    mem_limit: 512m
     ports:
       - '9092:9092'
     environment:
@@ -134,11 +137,12 @@ services:
       # 全局消息过期时间 6 小时(测试时可以设置短一点)
       - KAFKA_CFG_LOG_RETENTION_HOURS=1
       # 设置broker最大内存，和初始内存
-      - KAFKA_HEAP_OPTS=-Xms128m -Xmx512m
+      - KAFKA_HEAP_OPTS=-Xms128m -Xmx436m
     # volumes:
     #   - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
       - zookeeper
+      - database
     networks:
       default:
         ipv4_address: 172.18.1.7
