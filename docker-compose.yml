@@ -22,19 +22,19 @@ services:
       - nginx
       - kafka
  
-  web2:
-    <<: *web
-    container_name: web2
-    ports:
-      - "5001:80"
-    depends_on:
-      - database
-      - redis
-      - nginx
-      - kafka
-    networks:
-      default:
-        ipv4_address: 172.18.1.11
+  # web2:
+  #   <<: *web
+  #   container_name: web2
+  #   ports:
+  #     - "5001:80"
+  #   depends_on:
+  #     - database
+  #     - redis
+  #     - nginx
+  #     - kafka
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.1.11
       
   consumer: &consumer
     image: my-consumer-app:latest
@@ -88,16 +88,16 @@ services:
       default:
         ipv4_address: 172.18.1.4
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: myadmin
-    environment:
-      PMA_ARBITRARY: 1
-    ports:
-      - "13308:80"
-    networks:
-      default:
-        ipv4_address: 172.18.1.5
+  # phpmyadmin:
+  #   image: phpmyadmin:latest
+  #   container_name: myadmin
+  #   environment:
+  #     PMA_ARBITRARY: 1
+  #   ports:
+  #     - "13308:80"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.1.5
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
