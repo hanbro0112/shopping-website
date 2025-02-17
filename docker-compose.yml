@@ -134,7 +134,7 @@ services:
       # 全局消息过期时间 6 小时(测试时可以设置短一点)
       - KAFKA_CFG_LOG_RETENTION_HOURS=1
       # 设置broker最大内存，和初始内存
-      - KAFKA_HEAP_OPTS=-Xms64m -Xmx512m
+      - KAFKA_HEAP_OPTS=-Xms128m -Xmx512m
     # volumes:
     #   - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
