@@ -61,7 +61,6 @@ services:
       - "3306:3306"
     volumes:
       - ./docker_volumn/mysql:/var/lib/mysql
-    user: "1000:1000"
     networks:
       default:
         ipv4_address: 172.18.1.2
