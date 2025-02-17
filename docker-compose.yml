@@ -71,8 +71,8 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    volumes:
-      - ./docker_volumn/redis:/data
+    # volumes:
+    #   - ./docker_volumn/redis:/data
     networks:
       default:
         ipv4_address: 172.18.1.3
@@ -108,7 +108,6 @@ services:
     environment:
       # 匿名登录--必须开启
       - ALLOW_ANONYMOUS_LOGIN=yes
-    # 大坑:
     # Kafka 客户端在连接 Broker 的时候，Broker 将客户端发来的请求附加信息与 Broker 启动时上报给 Zookeeper 的 listeners参数信息、host（来自listeners的中间域名或主机名部分）、port (来自listeners的端口部分) 进行了验证，认证通过建立连接执行请求
     extra_hosts:
       - "kafka:127.0.0.1"
@@ -135,8 +134,8 @@ services:
       - KAFKA_CFG_LOG_RETENTION_HOURS=2
       # 设置broker最大内存，和初始内存
       - KAFKA_HEAP_OPTS=-Xmx256M -Xms128M
-    volumes:
-      - ./docker_volumn/kafka/data:/bitnami/kafka/data
+    # volumes:
+    #   - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
       - zookeeper
     networks:
