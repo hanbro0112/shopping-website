@@ -51,25 +51,13 @@ services:
   database:
     image: mysql:8.4.3
     container_name: mysql
-    # 资源限制
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 26677
-        hard: 46677
+    mem_limit: 400m
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db
       TZ: Asia/Shanghai
       MYSQL_CHARACTER_SET_SERVER: utf8
-      # 限制內存
-      performance_schema_max_table_instances: 400
-      table_definition_cache: 400
-      performance_schema: off
-      table_open_cache: 64
-      innodb_buffer_pool_size: 64M
-      innodb_buffer_pool_chunk_size: 64M
     ports:
       - "3306:3306"
     volumes:
@@ -145,7 +133,7 @@ services:
       # 全局消息过期时间 6 小时(测试时可以设置短一点)
       - KAFKA_CFG_LOG_RETENTION_HOURS=2
       # 设置broker最大内存，和初始内存
-      - KAFKA_HEAP_OPTS=-Xmx256M -Xms128M
+      - KAFKA_HEAP_OPTS=-Xmx128M -Xms64M
     # volumes:
     #   - ./docker_volumn/kafka/data:/bitnami/kafka/data
     depends_on:
