@@ -1,5 +1,3 @@
-version: '3'
-
 networks:
   default:
     driver: bridge
@@ -59,13 +57,19 @@ services:
       nofile:
         soft: 26677
         hard: 46677
-
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db
       TZ: Asia/Shanghai
       MYSQL_CHARACTER_SET_SERVER: utf8
+      # 限制內存
+      performance_schema_max_table_instances: 400
+      table_definition_cache: 400
+      performance_schema: off
+      table_open_cache: 64
+      innodb_buffer_pool_size: 64M
+      innodb_buffer_pool_chunk_size: 64M
     ports:
       - "3306:3306"
     volumes:
