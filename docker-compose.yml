@@ -19,7 +19,7 @@ services:
     depends_on:
       - database
       - redis
-      - nginx
+      # - nginx
       - kafka
  
   # web2:
