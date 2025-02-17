@@ -62,6 +62,7 @@ services:
       - "3306:3306"
     volumes:
       - ./docker_volumn/mysql:/var/lib/mysql
+      - ./docker_volumn/mysql_conf.d:/etc/mysql/conf.d # 減少內存
     networks:
       default:
         ipv4_address: 172.18.1.2
