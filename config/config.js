@@ -1,12 +1,12 @@
-const { RDS_PASSWORD, RDS_HOST } = require('dontenv').config();
+require('dotenv').config();
 
 module.exports = {
     development: {
         mysql: {
             username: 'root',
-            password: RDS_PASSWORD || 'root',
+            password: process.env.RDS_PASSWORD || 'root',
             database: 'db',
-            host: RDS_HOST || '172.18.1.2',
+            host: process.env.RDS_HOST || '172.18.1.2',
             port: '3306',
             dialect: 'mysql',
             timezone: '+08:00',
