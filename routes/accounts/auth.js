@@ -5,9 +5,12 @@ const { OAuth2Client } = require('google-auth-library');
 const { jwtToken, refreshToken } = require('./config');
 const { Account } = require('../../models');
 
-const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KEY } = process.env;
+const {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_SECRET_KEY,
+    GOOGLE_REDIRECT_URI,
+} = process.env;
 
-const GOOGLE_REDIRECT_URI = 'http://localhost:80/accounts/auth/google/callback';
 const client = new OAuth2Client({
     clientId: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_SECRET_KEY,
