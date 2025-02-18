@@ -1,4 +1,4 @@
-const awsRds = require('./aws-rds-config');
+const awsRds = require('./aws_rds_config');
 
 module.exports = {
     development: {
