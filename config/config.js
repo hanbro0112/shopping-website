@@ -1,14 +1,14 @@
-const awsRds = require('./aws_rds_config');
+const { RDS_PASSWORD, RDS_HOST } = require('dontenv').config();
 
 module.exports = {
     development: {
         mysql: {
-            username: awsRds.username || 'root',
-            password: awsRds.password || 'root',
-            database: awsRds.database || 'db',
-            host: awsRds.host || '172.18.1.2',
-            port: awsRds.port || '3306',
-            dialect: awsRds.dialect || 'mysql',
+            username: 'root',
+            password: RDS_PASSWORD || 'root',
+            database: 'db',
+            host: RDS_HOST || '172.18.1.2',
+            port: '3306',
+            dialect: 'mysql',
             timezone: '+08:00',
         },
         redis: {
