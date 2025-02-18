@@ -17,7 +17,7 @@ services:
       default:
         ipv4_address: 172.18.1.10
     depends_on:
-      - database
+      # - database
       - redis
       # - nginx
       - kafka
@@ -43,36 +43,34 @@ services:
       default:
         ipv4_address: 172.18.1.12
     depends_on:
-      - database
+      # - database
       - kafka
       - web1
       # - web2
     
-  database:
-    image: mysql:8.4.3
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
-      TZ: Asia/Shanghai
-      MYSQL_CHARACTER_SET_SERVER: utf8
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./docker_volumn/mysql:/var/lib/mysql
-      - ./docker_volumn/conf.d:/etc/mysql/conf.d # 減少內存
-    networks:
-      default:
-        ipv4_address: 172.18.1.2
+  # database:
+  #   image: mysql:8.4.3
+  #   container_name: mysql
+  #   environment:
+  #     MYSQL_ROOT_USER: root
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: db
+  #     TZ: Asia/Shanghai
+  #     MYSQL_CHARACTER_SET_SERVER: utf8mb4
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./docker_volumn/mysql:/var/lib/mysql
+  #     # - ./docker_volumn/conf.d:/etc/mysql/conf.d # 減少內存
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.1.2
 
   redis:
     image: redis:latest
     container_name: redis
     ports:
       - "6379:6379"
-    # volumes:
-    #   - ./docker_volumn/redis:/data
     networks:
       default:
         ipv4_address: 172.18.1.3
