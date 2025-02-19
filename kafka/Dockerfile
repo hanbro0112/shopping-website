@@ -12,6 +12,8 @@ COPY ./kafka/package.json /app/package.json
 COPY config /app/config
 # 複製資料庫設定
 COPY models /app/models
+# 複製設定檔
+COPY .env /app/.env
 # 安裝相依套件
 RUN npm install
 
