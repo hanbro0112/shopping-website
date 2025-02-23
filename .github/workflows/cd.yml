@@ -28,4 +28,4 @@ jobs:
             docker build -t my-web-app .
             docker build -t my-consumer-app -f ./kafka/Dockerfile .
             docker rmi -f `docker images | grep  "<none>" | awk '{print $3}'`
-            docker compose restart
+            docker compose up
