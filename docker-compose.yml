@@ -39,6 +39,8 @@ services:
   consumer: &consumer
     image: my-consumer-app:latest
     container_name: consumer
+    ports:
+      - "5005:80"
     networks:
       default:
         ipv4_address: 172.18.1.12

@@ -5,7 +5,7 @@ require('dotenv').config();
 const crypto = require('crypto');
 const redis = require('../../redis');
 const { toNumber } = require('../../utils/check');
-const { Cart } = require('../../models');
+const { Cart, Order } = require('../../models');
 const { findProductById } = require('../utils');
 const { orderState } = require('./config');
 const { sendMessage } = require('../../kafka');
