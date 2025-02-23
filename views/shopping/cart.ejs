@@ -59,7 +59,7 @@
 															<a href="/products/<%- cart[i].productId %>?quantity=<%- cart[i].quantity %>"><%- cart[i].name %></a>
 														</td>
 														<% if (cart[i].discount > 0) { %>
-															<td class="price text-center"><strong>$<%- cart[i].price * cart[i].discount %></strong>
+															<td class="price text-center"><strong>$<%- Math.floor(cart[i].price * cart[i].discount) %></strong>
 															<br>
 															<del class="font-weak">$<%- cart[i].price%></del></td>
 														<% } else { %>

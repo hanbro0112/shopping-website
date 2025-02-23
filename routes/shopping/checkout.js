@@ -100,7 +100,7 @@ async function checkoutPage(req, res) {
         // 購買數量 <= 商品庫存
         const quantity = Math.min(item.quantity, product.stock);
         const amount = product.discount > 0
-            ? (product.price * product.discount) * quantity
+            ? Math.floor((product.price * product.discount)) * quantity
             : product.price * quantity;
 
         totalAmount += amount;
@@ -183,7 +183,7 @@ async function confirmPost(req, res) {
         }
         // 計算價格
         const amount = product.discount > 0
-            ? (product.price * product.discount) * quantity[i]
+            ? Math.floor((product.price * product.discount)) * quantity[i]
             : product.price * quantity[i];
 
         totalAmount += amount;

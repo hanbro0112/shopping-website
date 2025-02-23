@@ -173,7 +173,7 @@
 										<!-- <p class="product-category">Category</p> -->
 										<h3 class="product-name"><a href="#"><%- products[i].name %></a></h3>
 										<% if (products[i].discount > 0) { %>
-											<h4 class="product-price">$<%- products[i].price * products[i].discount %> <del class="product-old-price">$<%- products[i].price %></del></h4>
+											<h4 class="product-price">$<%- Math.floor(products[i].price * products[i].discount) %> <del class="product-old-price">$<%- products[i].price %></del></h4>
 										<% } else { %>
 											<h4 class="product-price">$<%- products[i].price %></h4>
 										<% } %>

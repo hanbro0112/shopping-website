@@ -107,7 +107,9 @@ async function authCallback(req, res) {
         );
     }
     catch (error) {
-        res.redirect('accounts/login');
+        res.render('alert', { msg: error });
+
+        return;
     }
     res.redirect('/');
 }
