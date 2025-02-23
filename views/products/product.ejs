@@ -48,7 +48,7 @@
 							<% if (discount > 0) { %>
 								<li>
 									<p style="font-size: 30px; color:red;">
-										<strong>$<%- price * discount %> </strong>
+										<strong>$<%- Math.floor(price * discount) %> </strong>
 										<del class="font-weak" style="font-size: 15px; text-align: right; color:black;">$ <%- price %></del>
 									</p>
 								<li>
