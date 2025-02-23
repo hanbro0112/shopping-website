@@ -231,8 +231,8 @@ async function confirmPost(req, res) {
         note: req.body.notes,
     });
 
-    // 測試
-    return res.render('alert', { msg: '訂單建立成功' });
+    // // 測試
+    // return res.render('alert', { msg: '訂單建立成功' });
 
     // 串接金流
     const order = {

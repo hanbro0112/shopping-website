@@ -66,14 +66,16 @@
 															<td class="price text-center"><strong>$<%- cart[i].price %> </strong></td>
 														<% } %>
 														<td class="qty text-center"><%- cart[i].quantity %> <%- cart[i].state %></td>
-														<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
+														<td class="text-right"><button class="main-btn icon-btn delete-btn" data-cart-id="<%- cart[i].cartId %>"><i class="fa fa-close"></i></button></td>
 													</tr>
 												<% } %>
 											</thead>
 										</table>
-										<div class="pull-right">
-											<button class="primary-btn">結帳</button>
-										</div>
+										<% if (cart.length) { %>
+											<div class="pull-right">
+												<button class="primary-btn">結帳</button>
+											</div>
+										<% } %>
 									</form>
 								</div>
 							</div>
@@ -88,4 +90,28 @@
 		<%- include ("../footer.ejs") %>
 		<!-- footer -->
 	</body>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const cartId = this.getAttribute('data-cart-id');
+                    fetch(`/shopping/cart/${cartId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(() => {
+                        alert('Product removed from cart successfully!');
+                        location.reload(); // 刷新页面以更新购物车
+                    })
+                    .catch(error => {
+                        alert('An error occurred while removing the product from the cart.');
+                    });
+                });
+            });
+        });
+    </script>
 </html>

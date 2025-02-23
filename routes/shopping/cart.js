@@ -3,10 +3,13 @@ require('dotenv').config();
 
 const { Cart } = require('../../models');
 const { findProductById } = require('../utils');
+const { toNumber } = require('../../utils/check');
 
 module.exports.routers = function (router) {
     // 購物車頁面
     router.get('/cart', cartPage);
+    // 刪除購物車項目
+    router.delete('/cart/:cartId', deleteCart);
 };
 
 /**
@@ -78,4 +81,31 @@ async function cartPage(req, res) {
         cartArray.push(item);
     }
     res.render('shopping/cart', new CartReply(cartArray));
+}
+
+async function deleteCart(req, res) {
+    // 1. 未登入
+    if (!res.locals.isLogin) {
+        res.redirect('/accounts/login?redirect_url=/shopping/cart');
+
+        return;
+    }
+    const accountId = res.locals.accountId;
+    const cartId = toNumber(req.params.cartId);
+
+    const cartItem = await Cart.findOne({
+        where: {
+            id: cartId,
+            userId: accountId,
+        },
+    });
+
+    if (!cartItem) {
+        res.render('alert', { msg: 'Cart item not found' });
+
+        return;
+    }
+
+    await cartItem.destroy();
+    res.render('alert', { msg: '刪除成功' });
 }
