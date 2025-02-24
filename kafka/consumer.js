@@ -102,23 +102,23 @@ const run = async () => {
                         throw new Error('建立訂單明細失敗');
                     }
                 });
-                // // 刪除購物車
-                // await Promise.all(cartId.map(async (id) => {
-                //     await Cart.destroy({
-                //         where: {
-                //             id,
-                //             userId,
-                //         },
-                //         transaction: t,
-                //     });
-                // })).catch(() => {
-                //     throw new Error('刪除購物車失敗');
-                // });
+                // 刪除購物車
+                await Promise.all(cartId.map(async (id) => {
+                    await Cart.destroy({
+                        where: {
+                            id,
+                            userId,
+                        },
+                        transaction: t,
+                    });
+                })).catch(() => {
+                    throw new Error('刪除購物車失敗');
+                });
                 // 提交事務
                 await t.commit();
             }
             catch (error) {
-            // 回滾事務
+                // 回滾事務
                 await t.rollback();
                 // TODO 寫入日誌 or 重新寫回消息對列
                 console.error(`[order-consumer] ${error.message}`, error);
