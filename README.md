@@ -6,7 +6,7 @@ A shopping website focus on backend technology using Node.js.
 
 環境以 docker 建立應用，並以 github action 更新 aws 上的佈署。
 
-<a href="https://zhihanh.cc">DEMO 網址</a>
+<a href="https://zhihanh.cc" target="_blank">DEMO 網址</a>
 
 <img src="images/flow1.png" alt="架構圖">
 
