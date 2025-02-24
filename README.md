@@ -10,6 +10,8 @@ A shopping website focus on backend technology using Node.js.
 
 <img src="images/flow1.png" alt="架構圖">
 
+<img src="images/flow2.png" alt="資料表">
+
 # Basic funtion
 1. 登入串接 google-auth，並以 jwt token 作為訪問驗證
 2. 使用 orm sequelize 操作資料庫以及 migrate
