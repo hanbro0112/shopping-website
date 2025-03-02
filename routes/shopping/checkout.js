@@ -296,7 +296,7 @@ async function newebpayReturn(req, res) {
     await order.update({
         state: orderState.paid,
     });
-    res.redirect('shopping/order');
+    res.redirect('order');
 }
 
 /** TODO: 上雲後記錄到 ELK */
