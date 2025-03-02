@@ -39,7 +39,7 @@
 				<!-- row -->
 				<div class="row">
 					<form action="/shopping/confirm" method="post">
-
+						<input type="hidden" name="_csrf" value="<%- csrfToken %>">
 						<div class="col-md-7">
 							<!-- Billing Details -->
 							<div class="billing-details">

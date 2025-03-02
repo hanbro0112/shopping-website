@@ -67,6 +67,7 @@
 						<hr>
 						<ul>
 							<form action="/products" method="post">
+								<input type="hidden" name="_csrf" value="<%- csrfToken %>">
 								<li>
 									<h3>數量:<input type="number" name="quantity" value="<%- quantity %>" min="1" max="<%- stock %>"></h3>
 								</li>

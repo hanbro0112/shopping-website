@@ -40,6 +40,7 @@
 							<div class="col-md-12">
 								<div class="order-summary clearfix">
 									<form action="/shopping/checkout" method="post">
+										<input type="hidden" name="_csrf" value="<%- csrfToken %>">
 										<table class="shopping-cart-table table">
 											<thead>
 												<tr>

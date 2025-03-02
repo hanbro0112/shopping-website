@@ -17,7 +17,7 @@ module.exports.routers = function (router) {
  */
 class CartReply {
 
-    constructor(obj) {
+    constructor(csrfToken, obj) {
         this.cart = [];
         obj.forEach((item) => {
             this.cart.push({
@@ -32,6 +32,7 @@ class CartReply {
             });
         });
         this.msg = obj.msg || '';
+        this.csrfToken = csrfToken;
     }
 
 }
@@ -80,7 +81,7 @@ async function cartPage(req, res) {
         }
         cartArray.push(item);
     }
-    res.render('shopping/cart', new CartReply(cartArray));
+    res.render('shopping/cart', new CartReply(req.csrfToken(), cartArray));
 }
 
 async function deleteCart(req, res) {

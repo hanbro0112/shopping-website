@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const crsf = require('csurf');
 const logger = require('morgan');
 
 const logginMiddleware = require('./middlewares/loginMiddleware');
@@ -11,6 +12,7 @@ const indexRouter = require('./routes/index');
 const accountsRouter = require('./routes/accounts');
 const productsRuter = require('./routes/products');
 const shoppingRouter = require('./routes/shopping');
+const paymentApiRouter = require('./routes/paymentApi');
 
 const app = express();
 
@@ -24,7 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 藍新金流 post notify 不經過 csrf
+app.use('/shopping', paymentApiRouter);
+
 app.use(logginMiddleware);
+app.use(crsf({ cookie: true, ignoreMethods: ['GET', 'DELETE'] }));
 
 app.use('/', indexRouter);
 app.use('/accounts', accountsRouter);

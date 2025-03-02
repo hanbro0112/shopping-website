@@ -21,6 +21,7 @@ class RegisterReply {
     constructor(obj) {
         this.msg = obj.msg || '';
         this.redirectInfo = obj.redirectInfo || '';
+        this.csrfToken = obj.csrfToken;
     }
 
 }
@@ -34,7 +35,7 @@ function registerPage(req, res) {
     }
     // 重定向資訊 "...?redirect_url=/products/1&quantity=1"
     const redirectInfo = req.url.slice(req.url.indexOf('?') + 1);
-    res.render('accounts/register', new RegisterReply({ redirectInfo }));
+    res.render('accounts/register', new RegisterReply({ redirectInfo, csrfToken: req.csrfToken() }));
 }
 
 async function registerPost(req, res) {
@@ -53,6 +54,7 @@ async function registerPost(req, res) {
         res.render('accounts/register', new RegisterReply({
             msg: '帳號密碼格式錯誤',
             redirectInfo,
+            csrfToken: req.csrfToken(),
         }));
 
         return;
@@ -62,6 +64,7 @@ async function registerPost(req, res) {
         res.render('accounts/register', new RegisterReply({
             msg: '密碼輸入錯誤',
             redirectInfo,
+            csrfToken: req.csrfToken(),
         }));
 
         return;
@@ -77,12 +80,14 @@ async function registerPost(req, res) {
         res.render('accounts/login', new RegisterReply({
             msg: '註冊成功，請重新登入',
             redirectInfo,
+            csrfToken: req.csrfToken(),
         }));
     }).catch(() => {
         // 重複註冊
         res.render('accounts/register', new RegisterReply({
             msg: '已存在相同用戶名',
             redirectInfo,
+            csrfToken: req.csrfToken(),
         }));
     });
 }
