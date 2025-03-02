@@ -106,5 +106,9 @@ docker build -t my-web-app .
 docker build -t my-consumer-app -f ./kafka/Dockerfile .
 docker compose up
 ```
+測試數據
+```
+npm run seed:all
+```
 # Reference
 Front-end template reference: https://themewagon.com/themes/free-bootstrap-ecommerce-template-electro/
