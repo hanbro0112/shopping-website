@@ -24,6 +24,7 @@ class LoginReply {
     constructor(obj) {
         this.msg = obj.msg || '';
         this.redirectInfo = obj.redirectInfo || '';
+        this.csrfToken = obj.csrfToken;
     }
 
 }
@@ -37,7 +38,7 @@ function loginPage(req, res) {
     }
     // 重定向資訊 "login?redirect_url=/products/1&quantity=1"
     const redirectInfo = req.url.slice(req.url.indexOf('?') + 1);
-    res.render('accounts/login', new LoginReply({ redirectInfo }));
+    res.render('accounts/login', new LoginReply({ redirectInfo, csrfToken: req.csrfToken() }));
 }
 
 async function loginPost(req, res) {
@@ -70,6 +71,7 @@ async function loginPost(req, res) {
         res.render('accounts/login', new LoginReply({
             msg: '帳號密碼錯誤',
             redirectInfo,
+            csrfToken: req.csrfToken(),
         }));
 
         return;

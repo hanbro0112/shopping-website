@@ -28,6 +28,7 @@ class ProductReply {
         this.sold = obj.sold || 0;
         this.quantity = obj.quantity || 1; // 重定向回復原本的數量
         this.msg = obj.msg || '';
+        this.csrfToken = obj.csrfToken;
     }
 
 }
@@ -52,6 +53,7 @@ async function productPage(req, res) {
         stock: product.stock,
         sold: product.sold,
         msg: '',
+        csrfToken: req.csrfToken(),
         quantity, // 重定向回復原本的數量
     }));
 }
@@ -107,6 +109,7 @@ async function productAddToCart(req, res) {
             stock: product.stock,
             sold: product.sold,
             msg: '購物車已滿',
+            csrfToken: req.csrfToken(),
             quantity, // 重定向回復原本的數量
         }));
 
@@ -136,6 +139,7 @@ async function productAddToCart(req, res) {
         stock: product.stock,
         sold: product.sold,
         msg: '已新增至購物車',
+        csrfToken: req.csrfToken(),
         quantity, // 重定向回復原本的數量
     }));
 }

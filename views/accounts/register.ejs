@@ -40,6 +40,7 @@
 				<div class="row">
                     <div class="col-md-12">
 						<form action="./register", method="post">
+							<input type="hidden" name="_csrf" value="<%- csrfToken %>">
                             <p font-size="16">帳號: <input type="email" name="username" id="username" required="required" placeholder="email" autofocus></p>
                             <p font-size="16">密碼: <input type="password" name="password" id="password" required="required" placeholder="password" ></p>
 							<p font-size="16">重複密碼: <input type="password" name="repeatPassword" id="repeatPassword" required="required" placeholder="******" ></p>
