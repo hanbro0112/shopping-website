@@ -6,7 +6,7 @@ A shopping website focus on backend technology using Node.js.
 
 環境以 docker 建立應用，並以 github action 更新 aws 上的佈署。
 
-<a href="https://zhihanh.cc" target="_blank">DEMO 網址</a>
+<a href="https://zhihanh.cc" target="_blank"><del>DEMO 網址</del></a> (已關閉)
 
 <img src="images/flow1.png" alt="架構圖">
 
@@ -21,6 +21,17 @@ A shopping website focus on backend technology using Node.js.
 6. <del>訂單成立後寫入延遲對列，超時取消訂單並返還庫存</del>
 7. <del>ELK 寫帳</del>
 8. 以 jmeter 驗證資料的一致性
+
+# Display
+<img src="images/page1.png" alt="首頁">
+
+<img src="images/page2.png" alt="購物車">
+
+<img src="images/page3.png" alt="訂單確認">
+
+<img src="images/page4.png" alt="付款頁面">
+
+<img src="images/page5.png" alt="訂單完成">
 
 # Environment
 安裝 docker
